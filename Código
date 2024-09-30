@@ -1,0 +1,120 @@
+#include <math.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+  int opcao = 0;
+  char novo_produto[20][70];
+  int qnt_produto[20];
+  int prox_posicao_vazia = 0;
+  char nome_buscado[70];
+  while (opcao != 6) {
+    printf("Escolha oque deseja fazer:\n");
+    printf("\n\t 1. Cadastrar um novo produto");
+    printf("\n\t 2. Buscar um produto");
+    printf("\n\t 3. Exibir todos os produtos");
+    printf("\n\t 4. Alterar um produto");
+    printf("\n\t 5. Excluir um produto");
+    printf("\n\t 6. Sair\n");
+    scanf("%d", &opcao);
+    switch (opcao) {
+    case 1:
+      printf("Digite o nome do produto:");
+      getchar();
+      fgets(novo_produto[prox_posicao_vazia], 70, stdin);
+      printf("Digite a quantidade do produto:");
+      scanf("%d", &qnt_produto[prox_posicao_vazia]);
+      prox_posicao_vazia = prox_posicao_vazia + 1;
+      break;
+    case 2:
+      printf("Digite o nome do produto:");
+      getchar();
+      fgets(nome_buscado, 70, stdin);
+      int i = 0;
+      bool achou = false;
+      while (!achou && i < prox_posicao_vazia) {
+        int resultado = strcmp(nome_buscado, novo_produto[i]);
+        if (resultado == 0) {
+          achou = true;
+        } else {
+          i = i + 1;
+        }
+      }
+      if (achou) {
+        printf("produto encontrado\n");
+        printf("\t"
+               "nome:"
+               "%s\n",
+               novo_produto[i]);
+        printf("\t"
+               "quantidade:"
+               "%d\n",
+               qnt_produto[i]);
+      } else {
+        printf("produto não encontrado\n");
+      }
+      break;
+    case 3:
+      printf("Produtos cadastrados:\n");
+      for (int i = 0; i < prox_posicao_vazia; i++) {
+        printf("nome: %s\n", novo_produto[i]);
+        printf("quantidade: %d\n", qnt_produto[i]);
+      }
+      break;
+    case 4:
+      i = 0;
+      printf("Digite o nome do produto:");
+      getchar();
+      fgets(nome_buscado, 70, stdin);
+      bool achou2 = false;
+      while (!achou2 && i < prox_posicao_vazia) {
+        int resultado2 = strcmp(nome_buscado, novo_produto[i]);
+        if (resultado2 == 0)
+          achou2 = true;
+        else
+          i = i + 1;
+      }
+      if (achou2) {
+        printf("Digite o novo nome para o produto:");
+        fgets(novo_produto[i], 70, stdin);
+        printf("Digite a nova quantidade para o produto:");
+        scanf("%d", &qnt_produto[i]);
+      } else {
+        printf("produto não encontrado\n");
+      }
+      break;
+    case 5:
+      i = 0;
+      printf("Digite o nome do produto que deseja apagar:");
+      getchar();
+      fgets(nome_buscado, 70, stdin);
+      bool achou3 = false;
+      while (!achou3 && i < prox_posicao_vazia) {
+        int resultado3 = strcmp(nome_buscado, novo_produto[i]);
+        if (resultado3 == 0)
+          achou3 = true;
+        else
+          i = i + 1;
+      }
+      if (achou3) {
+        while (i < prox_posicao_vazia - 1) {
+          strcpy(novo_produto[i], novo_produto[i + 1]);
+          qnt_produto[i] = qnt_produto[i + 1];
+          i = i + 1;
+        }
+        prox_posicao_vazia = prox_posicao_vazia - 1;
+        printf("Produto removido com sucesso");
+      } else {
+        printf("Produto não encontrado");
+      }
+      break;
+      case 6:
+      printf("Saindo do programa\n");
+      default:
+      printf("Operação inválida\n");
+      break;
+    }
+  }
+}
